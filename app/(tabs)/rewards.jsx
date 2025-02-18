@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, Text, FlatList, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
 
 export default function Rewards() {
-  const { quotes } = useQuotes();
+  const { getUnlockedQuotes } = useQuotes();
   const [unlockedQuotes, setUnlockedQuotes] = useState([]);
 
-  useEffect(() => {
-    const unlockedQuotes = quotes.filter((quote) => quote.unlocked);
-    const orderedQuotes = unlockedQuotes.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
-    setUnlockedQuotes(orderedQuotes);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setUnlockedQuotes(
+        getUnlockedQuotes().sort((a, b) => new Date(b.date) - new Date(a.date))
+      );
+    }, [getUnlockedQuotes])
+  );
 
   return (
     <Screen style={styles.screen}>
@@ -28,9 +28,9 @@ export default function Rewards() {
             <View style={styles.card}>
               <Text style={styles.author}>{item.author}</Text>
               <Text style={styles.quote}>{item.quote}</Text>
-              <Text style={styles.quote}>
-                Unlocked : {new Date(item.date).toLocaleDateString()}
-              </Text>
+              {/* <Text style={styles.quote}>
+                Unlocked: {new Date(item.date).toLocaleDateString()}
+              </Text> */}
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}

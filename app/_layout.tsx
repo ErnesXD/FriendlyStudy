@@ -1,9 +1,12 @@
 import { Stack } from "expo-router";
+import { QuotesProvider } from "../lib/Utils";
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <QuotesProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </QuotesProvider>
   );
 }
