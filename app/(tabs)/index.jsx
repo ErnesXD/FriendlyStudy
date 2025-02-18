@@ -6,9 +6,9 @@ import { useQuotes } from "../../lib/Utils";
 export default function Index() {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [duration, setDuration] = useState(5000);
+  const [duration, setDuration] = useState(1000);
   const [modalVisible, setModalVisible] = useState(false);
-  const { getRandomQuote } = useQuotes();
+  const { getRandomQuote, setFavouriteQuote } = useQuotes();
   const [quote, setQuote] = useState(null);
 
   useEffect(() => {
@@ -65,12 +65,23 @@ export default function Index() {
                 ? `"${quote.quote}" - ${quote.author}`
                 : "No quote available"}
             </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
+            <View style={{ flexDirection: "row", display: "flex" }}>
+              <Pressable
+                style={[styles.buttonModal]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.textStyle}>Add</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonModal]}
+                onPress={() => {
+                  setModalVisible(false);
+                  setFavouriteQuote(quote);
+                }}
+              >
+                <Text style={styles.textStyle}>Favourite</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
@@ -135,5 +146,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
     elevation: 5,
+  },
+  buttonModal: {
+    backgroundColor: "#A5D6A7",
+    width: 125,
+    height: 60,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+    marginLeft: 15,
+    marginRIgh: 15,
   },
 });

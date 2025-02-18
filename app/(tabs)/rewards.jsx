@@ -1,12 +1,19 @@
-import { useCallback, useState } from "react";
-import { StyleSheet, Text, FlatList, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { StyleSheet, Text, FlatList, View, Pressable } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
+import { Ionicons } from "@expo/vector-icons";
+import CustomPicker from "../../components/CustomPicker";
 
 export default function Rewards() {
-  const { getUnlockedQuotes } = useQuotes();
+  const { getUnlockedQuotes, setFavouriteQuote } = useQuotes();
   const [unlockedQuotes, setUnlockedQuotes] = useState([]);
+  const [favourite, setFavourite] = useState(false);
+
+  const handleValueChange = (newValue) => {
+    setFavourite(newValue);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -18,19 +25,38 @@ export default function Rewards() {
 
   return (
     <Screen style={styles.screen}>
-      <Text style={styles.title}>Rewards</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "90%",
+        }}
+      >
+        <Text style={styles.title}>Rewards</Text>
+        <CustomPicker onValueChange={handleValueChange} />
+      </View>
+
       {unlockedQuotes.length === 0 ? (
         <Text style={styles.noQuotesText}>No unlocked quotes available.</Text>
       ) : (
         <FlatList
-          data={unlockedQuotes}
+          data={
+            favourite
+              ? unlockedQuotes.filter((quote) => quote.isFavourite)
+              : unlockedQuotes
+          }
           renderItem={({ item }) => (
             <View style={styles.card}>
               <Text style={styles.author}>{item.author}</Text>
               <Text style={styles.quote}>{item.quote}</Text>
-              {/* <Text style={styles.quote}>
-                Unlocked: {new Date(item.date).toLocaleDateString()}
-              </Text> */}
+              <Pressable onPress={() => setFavouriteQuote(item)}>
+                <Ionicons
+                  name={item.isFavourite ? "star" : "star-outline"}
+                  size={24}
+                  color="#1B5E20"
+                />
+              </Pressable>
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}
@@ -44,7 +70,7 @@ export default function Rewards() {
 const styles = StyleSheet.create({
   title: {
     paddingTop: 20,
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#C8E6C9",
     textAlign: "center",
@@ -91,5 +117,11 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     flexGrow: 1,
+  },
+  topText: {
+    fontSize: 18,
+    fontWeight: "normal",
+    color: "#FFFFFF",
+    textAlign: "center",
   },
 });
