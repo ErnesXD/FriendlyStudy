@@ -2,53 +2,30 @@ import { useState, useEffect } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
+import { TimePicker } from "../../components/TimePicker";
+import { useTimer, useSound } from "../../hooks/useTimer";
 
 export default function Index() {
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [duration, setDuration] = useState(1000);
   const [modalVisible, setModalVisible] = useState(false);
-  const { getRandomQuote, setFavouriteQuote } = useQuotes();
-  const [quote, setQuote] = useState(null);
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const startTime = Date.now();
-    const endTime = startTime + duration;
-    const interval = setInterval(() => {
-      const remainingTime = endTime - Date.now();
-      if (remainingTime <= 0) {
-        clearInterval(interval);
-        setTime(0);
-        setQuote(getRandomQuote());
-        setModalVisible(true);
-        setIsRunning(false);
-      } else {
-        setTime(remainingTime);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isRunning]);
-
-  function startTimer() {
-    setTime(duration);
-    setIsRunning(true);
-  }
-
-  function stopTimer() {
-    setTime(duration);
-    setIsRunning(false);
-  }
-
-  function formatTime(ms) {
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.ceil((ms % 60000) / 1000);
-    return `${minutes < 10 ? "0" + minutes : minutes}:${
-      seconds < 10 ? "0" + seconds : seconds
-    }`;
-  }
+  const {
+    time,
+    isRunning,
+    quote,
+    duration,
+    startTimer,
+    stopTimer,
+    handleDurationChange,
+    formatTime,
+  } = useTimer(
+    {
+      hours: 0,
+      minutes: 25,
+      seconds: 0,
+    },
+    setModalVisible
+  );
+  const { setFavouriteQuote } = useQuotes();
+  const { playSound } = useSound();
 
   return (
     <Screen>
@@ -86,11 +63,23 @@ export default function Index() {
         </View>
       </Modal>
 
-      <Text style={styles.title}>{formatTime(time)}</Text>
-      <Pressable onPress={() => (isRunning ? stopTimer() : startTimer())}>
+      {isRunning ? (
+        <Text style={styles.title}>{formatTime(time)}</Text>
+      ) : (
+        <TimePicker
+          onDurationChange={handleDurationChange}
+          duration={duration}
+        />
+      )}
+      <Pressable
+        onPress={async () => {
+          await playSound();
+          isRunning ? stopTimer() : startTimer();
+        }}
+      >
         <View style={styles.button}>
           <Text style={styles.buttonText}>
-            {isRunning ? "Stop" : "Start 25-minute timer"}
+            {isRunning ? "Stop" : "Start timer"}
           </Text>
         </View>
       </Pressable>
@@ -160,6 +149,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     marginLeft: 15,
-    marginRIgh: 15,
+    marginRight: 15,
   },
 });
