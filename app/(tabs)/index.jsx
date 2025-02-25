@@ -1,11 +1,22 @@
 import { useState, useEffect } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  BackHandler,
+} from "react-native";
 import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
 import { TimePicker } from "../../components/TimePicker";
-import { useTimer, useSound } from "../../hooks/useTimer";
+import { useTimer, useSound, useExit } from "../../hooks/useTimer";
+import { usePathname } from "expo-router";
 
 export default function Index() {
+  const pathname = usePathname();
+
   const [modalVisible, setModalVisible] = useState(false);
   const {
     time,
@@ -26,7 +37,7 @@ export default function Index() {
   );
   const { setFavouriteQuote } = useQuotes();
   const { playSound } = useSound();
-
+  useExit(isRunning, pathname);
   return (
     <Screen>
       <Modal

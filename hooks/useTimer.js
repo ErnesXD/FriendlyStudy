@@ -2,6 +2,9 @@
 import { useState, useEffect } from "react";
 import { useQuotes } from "../lib/Utils";
 import { Audio } from "expo-av";
+import { Alert, BackHandler } from "react-native";
+import { usePathname } from "expo-router";
+
 export function useTimer(initialDuration, setModalVisible) {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -95,4 +98,32 @@ export function useSound() {
   }, [sound]);
 
   return { playSound };
+}
+
+export function useExit(isRunning, pathname) {
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        "Exit",
+        "Are you sure you want to close the app? The timer will stop",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Yes", onPress: () => BackHandler.exitApp() },
+        ]
+      );
+      return true; // Prevents default back action
+    };
+    console.log(pathname);
+    console.log(isRunning);
+    if (pathname === "/" && isRunning) {
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+      return () => {
+        backHandler.remove();
+      };
+    }
+  }, [pathname, isRunning]);
+  return;
 }

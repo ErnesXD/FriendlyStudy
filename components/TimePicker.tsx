@@ -94,7 +94,7 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
           onDurationChange(pickedDuration);
           setShowPicker(false);
         }}
-        modalTitle="Set Alarm"
+        modalTitle="Set Timer"
         onCancel={() => setShowPicker(false)}
         closeOnOverlayPress
         LinearGradient={LinearGradient}

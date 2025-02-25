@@ -5,7 +5,6 @@ import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
 import { Ionicons } from "@expo/vector-icons";
 import CustomPicker from "../../components/CustomPicker";
-
 export default function Rewards() {
   const { getUnlockedQuotes, setFavouriteQuote } = useQuotes();
   const [unlockedQuotes, setUnlockedQuotes] = useState([]);
@@ -24,45 +23,54 @@ export default function Rewards() {
   );
 
   return (
-    <Screen style={styles.screen}>
+    <Screen style={[styles.screen]}>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flex: 1,
+          justifyContent: "flex-start",
+          width: "100%",
           alignItems: "center",
-          width: "90%",
         }}
       >
-        <Text style={styles.title}>Rewards</Text>
-        <CustomPicker onValueChange={handleValueChange} />
-      </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "90%",
+          }}
+        >
+          <Text style={styles.title}>Rewards</Text>
+          <CustomPicker onValueChange={handleValueChange} />
+        </View>
 
-      {unlockedQuotes.length === 0 ? (
-        <Text style={styles.noQuotesText}>No unlocked quotes available.</Text>
-      ) : (
-        <FlatList
-          data={
-            favourite
-              ? unlockedQuotes.filter((quote) => quote.isFavourite)
-              : unlockedQuotes
-          }
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text style={styles.author}>{item.author}</Text>
-              <Text style={styles.quote}>{item.quote}</Text>
-              <Pressable onPress={() => setFavouriteQuote(item)}>
-                <Ionicons
-                  name={item.isFavourite ? "star" : "star-outline"}
-                  size={24}
-                  color="#1B5E20"
-                />
-              </Pressable>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.flatListContainer}
-        />
-      )}
+        {unlockedQuotes.length === 0 ? (
+          <Text style={styles.noQuotesText}>No unlocked quotes available.</Text>
+        ) : (
+          <FlatList
+            data={
+              favourite
+                ? unlockedQuotes.filter((quote) => quote.isFavourite)
+                : unlockedQuotes
+            }
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Text style={styles.author}>{item.author}</Text>
+                <Text style={styles.quote}>{item.quote}</Text>
+                <Pressable onPress={() => setFavouriteQuote(item)}>
+                  <Ionicons
+                    name={item.isFavourite ? "star" : "star-outline"}
+                    size={24}
+                    color="#1B5E20"
+                  />
+                </Pressable>
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.flatListContainer}
+          />
+        )}
+      </View>
     </Screen>
   );
 }
