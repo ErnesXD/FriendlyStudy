@@ -14,7 +14,7 @@ Pomodoro Motivacional es una aplicación de productividad desarrollada en React 
 1. Clona el repositorio:
    ```sh
    git clone https://github.com/ErnesXD/FriendlyStudy.git
-   cd pomodoro-motivacional
+   cd FriendlyStudy
    ```
 
 2. Instala las dependencias:
