@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  BackHandler,
-} from "react-native";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Screen } from "../../components/Screen";
 import { useQuotes } from "../../lib/Utils";
 import { TimePicker } from "../../components/TimePicker";
@@ -37,7 +29,7 @@ export default function Index() {
   );
   const { setFavouriteQuote } = useQuotes();
   const { playSound } = useSound();
-  useExit(isRunning, pathname);
+  useExit(isRunning, pathname, stopTimer);
   return (
     <Screen>
       <Modal

@@ -1,9 +1,11 @@
 import { TimerPickerModal } from "react-native-timer-picker";
-import { LinearGradient } from "expo-linear-gradient"; // or `import LinearGradient from "react-native-linear-gradient"`
+import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import * as Haptics from "expo-haptics"; // for haptic feedback
+import * as Haptics from "expo-haptics";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+
 interface TimePickerProps {
   onDurationChange: (duration: {
     hours: number;
@@ -50,10 +52,11 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
     setAlarmString(formatTime(duration));
     setAlarmDuration(duration);
   }, []);
+
   return (
     <View
       style={{
-        backgroundColor: "#514242",
+        backgroundColor: "#1B5E20",
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -63,6 +66,9 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
           style={{
             alignItems: "center",
             backgroundColor: "#1B5E20",
+            paddingBottom: 0,
+            padding: 0,
+            position: "relative",
           }}
         >
           {alarmString !== null ? (
@@ -77,10 +83,18 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
               {alarmString}
             </Text>
           ) : null}
+
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setShowPicker(true)}
-          ></TouchableOpacity>
+            style={{
+              position: "absolute",
+              bottom: 40,
+              right: -30,
+            }}
+          >
+            <FontAwesome name="pencil" size={24} color="#C8E6C9" />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
       <TimerPickerModal

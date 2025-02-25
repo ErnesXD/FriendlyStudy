@@ -4,7 +4,8 @@ import { TimePicker } from "@/components/TimePicker";
 export default function Rewards() {
   return (
     <Screen>
-      <Text style={styles.text}>SETTINGS</Text>
+      <Text style={styles.text}>SETTINGS ARE OVERRATED</Text>
+      <Text style={styles.textLittle}>Viva Seneca</Text>
     </Screen>
   );
 }
@@ -12,6 +13,13 @@ export default function Rewards() {
 const styles = StyleSheet.create({
   text: {
     fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    marginTop: 20,
+  },
+  textLittle: {
+    fontSize: 5,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",

@@ -1,8 +1,8 @@
 // useTimer.js
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuotes } from "../lib/Utils";
 import { Audio } from "expo-av";
-import { Alert, BackHandler } from "react-native";
+import { Alert, BackHandler, AppState } from "react-native";
 import { usePathname } from "expo-router";
 
 export function useTimer(initialDuration, setModalVisible) {
@@ -100,7 +100,9 @@ export function useSound() {
   return { playSound };
 }
 
-export function useExit(isRunning, pathname) {
+export function useExit(isRunning, pathname, stopTimer) {
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   useEffect(() => {
     const backAction = () => {
       Alert.alert(
@@ -108,13 +110,19 @@ export function useExit(isRunning, pathname) {
         "Are you sure you want to close the app? The timer will stop",
         [
           { text: "Cancel", style: "cancel" },
-          { text: "Yes", onPress: () => BackHandler.exitApp() },
+          {
+            text: "Yes",
+            onPress: () => {
+              stopTimer();
+              BackHandler.exitApp();
+            },
+          },
         ]
       );
       return true; // Prevents default back action
     };
-    console.log(pathname);
-    console.log(isRunning);
+    // console.log(pathname);
+    // console.log(isRunning);
     if (pathname === "/" && isRunning) {
       const backHandler = BackHandler.addEventListener(
         "hardwareBackPress",
@@ -125,5 +133,28 @@ export function useExit(isRunning, pathname) {
       };
     }
   }, [pathname, isRunning]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("App has come to the foreground!");
+        setTimeout(() => {
+          console.log("Timer run out");
+          stopTimer();
+        }, 5000);
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      console.log("AppState", appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
   return;
 }
