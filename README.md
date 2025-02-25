@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+# Pomodoro Motivacional
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Pomodoro Motivacional es una aplicación de productividad desarrollada en React Native que implementa la técnica Pomodoro. Al finalizar cada sesión de trabajo, la aplicación muestra una frase motivacional para mantenerte enfocado y motivado.
 
-## Get started
+## Características
+- Temporizador Pomodoro personalizable.
+- Notificaciones y vibraciones al finalizar una sesión.
+- Frases motivacionales inspiradoras después de cada Pomodoro.
+- Interfaz minimalista y fácil de usar.
+- Compatible con Android y iOS.
 
-1. Install dependencies
+## Instalación
 
-   ```bash
+1. Clona el repositorio:
+   ```sh
+   git clone https://github.com/ErnesXD/FriendlyStudy.git
+   cd pomodoro-motivacional
+   ```
+
+2. Instala las dependencias:
+   ```sh
    npm install
+   # o
+   yarn install
    ```
 
-2. Start the app
-
-   ```bash
-    npx expo start
+3. Inicia la aplicación:
+   ```sh
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Uso
+1. Abre la aplicación y ajusta la duración del temporizador si lo deseas.
+2. Presiona el botón de inicio para comenzar una sesión de trabajo.
+3. Al finalizar la sesión, recibirás una notificación con una frase motivacional.
+4. Descansa y repite el proceso para mejorar tu productividad.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tecnologías utilizadas
+- React Native
+- Expo
+- React Native Timer Picker
+- Expo Notifications
+- Expo Haptics
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Contribuciones
+¡Las contribuciones son bienvenidas! Si quieres mejorar la aplicación, por favor sigue estos pasos:
 
-## Get a fresh project
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature-nueva-funcionalidad`).
+3. Realiza los cambios y haz commit (`git commit -m "Añadir nueva funcionalidad"`).
+4. Envía un pull request.
 
-When you're ready, run:
+## Licencia
+Este proyecto está bajo la licencia MIT. Puedes ver más detalles en el archivo LICENSE.
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+¡Esperamos que esta app te ayude a ser más productivo y a mantenerte motivado!
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
