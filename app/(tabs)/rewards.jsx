@@ -44,7 +44,9 @@ export default function Rewards() {
           <CustomPicker onValueChange={handleValueChange} />
         </View>
 
-        {unlockedQuotes.length === 0 ? (
+        {(favourite
+          ? unlockedQuotes.filter((quote) => quote.isFavourite).length
+          : unlockedQuotes.length) === 0 ? (
           <Text style={styles.noQuotesText}>No unlocked quotes available.</Text>
         ) : (
           <FlatList

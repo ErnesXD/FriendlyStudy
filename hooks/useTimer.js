@@ -86,11 +86,15 @@ export function useSound() {
   const [sound, setSound] = useState();
 
   async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../assets/button.mp3")
-    );
-    setSound(sound);
-    await sound.playAsync();
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/button.mp3")
+      );
+      setSound(sound);
+      await sound.playAsync();
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
   }
 
   useEffect(() => {

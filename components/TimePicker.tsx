@@ -2,7 +2,7 @@ import { TimerPickerModal } from "react-native-timer-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import * as Haptics from "expo-haptics";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { Audio } from "expo-av";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -16,6 +16,8 @@ interface TimePickerProps {
 }
 
 export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
+  const hapticImplementation = Platform.OS !== "web" ? Haptics : null;
+  const audioImplementation = Platform.OS !== "web" ? Audio : null;
   const [showPicker, setShowPicker] = useState(false);
   const [alarmString, setAlarmString] = useState<string | null>(null);
   const [alarmDuration, setAlarmDuration] = useState({
@@ -101,7 +103,7 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
         initialValue={alarmDuration}
         visible={showPicker}
         setIsVisible={setShowPicker}
-        Audio={Audio}
+        Audio={audioImplementation}
         onConfirm={(pickedDuration) => {
           setAlarmString(formatTime(pickedDuration));
           setAlarmDuration(pickedDuration);
@@ -112,7 +114,7 @@ export function TimePicker({ onDurationChange, duration }: TimePickerProps) {
         onCancel={() => setShowPicker(false)}
         closeOnOverlayPress
         LinearGradient={LinearGradient}
-        Haptics={Haptics}
+        Haptics={hapticImplementation}
         styles={{
           theme: "dark",
         }}

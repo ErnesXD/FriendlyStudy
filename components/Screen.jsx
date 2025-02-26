@@ -1,11 +1,11 @@
-import { View } from "react-native";
-import { StatusBar } from "react-native";
+import { View, StatusBar, SafeAreaView } from "react-native";
 
 const { StyleSheet } = require("react-native");
 
 export function Screen({ children }) {
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <StatusBar backgroundColor="#1B5E20" barStyle="light-content" />
       {children}
     </View>
